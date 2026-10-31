@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Tabel Mahasiswa</title>
+
+    <!-- ==============================================
+         BAGIAN CSS — Tulis di dalam tag <style>
+         ============================================== -->
+    <style>
+        body {
+            background-color: #ffd700;
+            font-family: Cambria, serif;
+            padding: 20px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #2c3e50;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: cornsilk;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 20px;
+        }
+
+        th,
+        td {
+            padding: 12px 15px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f5b800;
+            color: #2c3e50;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background-color: #fff8dc;
+        }
+
+        tr:hover {
+            background-color: #ffe48b;
+        }
+
+        /* Gaya Form Input */
+        .form-input {
+            background-color: cornsilk;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        input,
+        button {
+            padding: 8px 12px;
+            margin: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            background-color: #ffd700;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background-color: #f5b800;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ==============================================
+         BAGIAN HTML — Struktur Tampilan
+         ============================================== -->
+    <h2>📋 Daftar Data Mahasiswa</h2>
+
+    <!-- Form Tambah Data -->
+    <div class="form-input">
+        <h3>Tambah Data Mahasiswa</h3>
+        <input type="text" id="nim" placeholder="NIM" required>
+        <input type="text" id="nama" placeholder="Nama Lengkap" required>
+        <input type="text" id="jurusan" placeholder="Jurusan" required>
+        <input type="text" id="kelas" placeholder="Kelas" required>
+        <button onclick="tambahData()">Simpan Data</button>
+    </div>
+
+    <!-- Tabel Data -->
+    <table id="tabelMahasiswa">
+        <tr>
+            <th>No</th>
+            <th>NIM</th>
+            <th>Nama Lengkap</th>
+            <th>Jurusan</th>
+            <th>Kelas</th>
+            <th>Aksi</th>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>23100001</td>
+            <td>Siti Aminah</td>
+            <td>Teknik Informatika</td>
+            <td>TI-A</td>
+            <td><button onclick="hapusBaris(this)">Hapus</button></td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>23100002</td>
+            <td>Budi Santoso</td>
+            <td>Sistem Informasi</td>
+            <td>SI-B</td>
+            <td><button onclick="hapusBaris(this)">Hapus</button></td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>23100003</td>
+            <td>Lina Marlina</td>
+            <td>Manajemen</td>
+            <td>MN-C</td>
+            <td><button onclick="hapusBaris(this)">Hapus</button></td>
+        </tr>
+    </table>
+
+    <!-- ==============================================
+         BAGIAN JAVASCRIPT — Tulis di dalam tag <script>
+         ============================================== -->
+    <script>
+        // Fungsi tambah data
+        function tambahData() {
+            // Ambil nilai dari input
+            let nim = document.getElementById('nim').value;
+            let nama = document.getElementById('nama').value;
+            let jurusan = document.getElementById('jurusan').value;
+            let kelas = document.getElementById('kelas').value;
+
+            // Cek jika ada yang kosong
+            if (!nim || !nama || !jurusan || !kelas) {
+                alert('Silakan isi semua kolom!');
+                return;
+            }
+
+            let tabel = document.getElementById('tabelMahasiswa');
+            let jumlahBaris = tabel.rows.length;
+
+            // Buat baris baru
+            let barisBaru = tabel.insertRow();
+            barisBaru.innerHTML = `
+                <td>${jumlahBaris}</td>
+                <td>${nim}</td>
+                <td>${nama}</td>
+                <td>${jurusan}</td>
+                <td>${kelas}</td>
+                <td><button onclick="hapusBaris(this)">Hapus</button></td>
+            `;
+
+            // Kosongkan form setelah disimpan
+            document.getElementById('nim').value = '';
+            document.getElementById('nama').value = '';
+            document.getElementById('jurusan').value = '';
+            document.getElementById('kelas').value = '';
+        }
+
+        // Fungsi hapus baris
+        function hapusBaris(elemen) {
+            if (confirm('Yakin ingin menghapus data ini?')) {
+                let baris = elemen.parentElement.parentElement;
+                baris.remove();
+                nomorUrutUlang();
+            }
+        }
+
+        // Fungsi perbaiki nomor urut setelah dihapus
+        function nomorUrutUlang() {
+            let tabel = document.getElementById('tabelMahasiswa');
+            for (let i = 1; i < tabel.rows.length; i++) {
+                tabel.rows[i].cells[0].textContent = i;
+            }
+        }
+    </script>
+
+</body>
+
+</html>
